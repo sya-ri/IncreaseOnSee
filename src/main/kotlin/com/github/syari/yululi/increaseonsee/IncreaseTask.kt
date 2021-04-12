@@ -1,5 +1,6 @@
 package com.github.syari.yululi.increaseonsee
 
+import com.github.syari.spigot.api.message.sendTitleMessage
 import com.github.syari.spigot.api.scheduler.runTaskTimer
 import com.github.syari.yululi.increaseonsee.Main.Companion.plugin
 import org.bukkit.entity.EntityType
@@ -11,7 +12,7 @@ import org.bukkit.scheduler.BukkitTask
 object IncreaseTask {
     private var task: BukkitTask? = null
 
-    var mobAmount = 1
+    var mobAmount = 0
 
     var ignoreType = setOf(
         EntityType.ENDER_DRAGON
@@ -22,7 +23,15 @@ object IncreaseTask {
     fun start() = if (task != null) {
         false
     } else {
+        var mobAmountAutoIncrement = 0
         task = plugin.runTaskTimer(10) {
+            if (mobAmountAutoIncrement % 120 == 0) { // per 1 minute
+                mobAmount ++
+                plugin.server.onlinePlayers.forEach {
+                    it.sendTitleMessage("&0", "&f&lモブが &a&l${mobAmount}体 &f&l増えます")
+                }
+            }
+            mobAmountAutoIncrement ++
             plugin.server.onlinePlayers.forEach {
                 val entity = it.getNearestEntityInSight(30)
                 if (entity is LivingEntity && entity.type.isSpawnable && ignoreType.contains(entity.type).not()) {
