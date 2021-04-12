@@ -5,9 +5,15 @@ import org.bukkit.plugin.java.JavaPlugin
 class Main : JavaPlugin() {
     companion object {
         lateinit var plugin: JavaPlugin
+
+        var mobAmount = 1
     }
 
     init {
         plugin = this
+    }
+
+    override fun onEnable() {
+        CommandCreator.register()
     }
 }
