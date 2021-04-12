@@ -2,6 +2,7 @@ package com.github.syari.yululi.increaseonsee
 
 import com.github.syari.spigot.api.scheduler.runTaskTimer
 import com.github.syari.yululi.increaseonsee.Main.Companion.plugin
+import org.bukkit.entity.EntityType
 import org.bukkit.entity.LivingEntity
 import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
@@ -12,13 +13,19 @@ object IncreaseTask {
 
     var mobAmount = 1
 
+    var ignoreType = setOf(
+        EntityType.ENDER_DRAGON
+    )
+
+    val allLivingEntityType = EntityType.values().filter(EntityType::isAlive)
+
     fun start() = if (task != null) {
         false
     } else {
         task = plugin.runTaskTimer(10) {
             plugin.server.onlinePlayers.forEach {
                 val entity = it.getNearestEntityInSight(30)
-                if (entity is LivingEntity) {
+                if (entity is LivingEntity && ignoreType.contains(entity.type).not()) {
                     entity.addPotionEffect(PotionEffect(PotionEffectType.GLOWING, 10, 0, false, false, false))
                     if (CoolTime.contains(it).not()) {
                         CoolTime.add(it, 5 * 20)
