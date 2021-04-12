@@ -50,6 +50,7 @@ object IncreaseTask {
 
     fun stop() = if (task != null) {
         task!!.cancel()
+        task = null
         true
     } else {
         false
