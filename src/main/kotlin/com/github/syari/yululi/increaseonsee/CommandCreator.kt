@@ -3,7 +3,7 @@ package com.github.syari.yululi.increaseonsee
 import com.github.syari.spigot.api.command.command
 import com.github.syari.spigot.api.command.tab.CommandTabArgument.Companion.argument
 import com.github.syari.spigot.api.message.sendChatMessage
-import com.github.syari.yululi.increaseonsee.Main.Companion.mobAmount
+import com.github.syari.yululi.increaseonsee.IncreaseTask.mobAmount
 import com.github.syari.yululi.increaseonsee.Main.Companion.plugin
 
 object CommandCreator {

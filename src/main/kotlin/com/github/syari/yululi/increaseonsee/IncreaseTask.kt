@@ -10,6 +10,8 @@ import org.bukkit.scheduler.BukkitTask
 object IncreaseTask {
     private var task: BukkitTask? = null
 
+    var mobAmount = 1
+
     fun start() = if (task != null) {
         false
     } else {
@@ -18,6 +20,12 @@ object IncreaseTask {
                 val entity = it.getNearestEntityInSight(30)
                 if (entity is LivingEntity) {
                     entity.addPotionEffect(PotionEffect(PotionEffectType.GLOWING, 10, 0, false, false, false))
+                    if (CoolTime.contains(it).not()) {
+                        CoolTime.add(it, 5 * 20)
+                        repeat(mobAmount) {
+                            entity.world.spawnEntity(entity.location, entity.type)
+                        }
+                    }
                 }
             }
         }
