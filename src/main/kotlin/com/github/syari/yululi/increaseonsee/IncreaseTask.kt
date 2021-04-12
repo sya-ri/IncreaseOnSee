@@ -25,7 +25,7 @@ object IncreaseTask {
         task = plugin.runTaskTimer(10) {
             plugin.server.onlinePlayers.forEach {
                 val entity = it.getNearestEntityInSight(30)
-                if (entity is LivingEntity && ignoreType.contains(entity.type).not()) {
+                if (entity is LivingEntity && entity.type.isSpawnable && ignoreType.contains(entity.type).not()) {
                     entity.addPotionEffect(PotionEffect(PotionEffectType.GLOWING, 10, 0, false, false, false))
                     if (CoolTime.contains(it).not()) {
                         CoolTime.add(it, 5 * 20)
